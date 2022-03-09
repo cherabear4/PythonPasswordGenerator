@@ -4,6 +4,13 @@ import pathlib
 import os
 import uuid
 import hashlib
+from kivy.app import App
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
+from kivy.uix.image import Image
+from kivy.uix.button import Button
+from kivy.uix.textinput import TextInput
+from kivy.uix.popup import Popup
 
 #=======================================================================================================================
 
@@ -17,7 +24,7 @@ def me():
         __/ |                                                                                          
        |___/   """)
 
-me()
+
 
 #=======================================================================================================================
 
@@ -41,14 +48,96 @@ me()
 
 #=======================================================================================================================
 
+#Things Done
+
+#1. Password Generator
+#2. UI Generator
+#3. Hashing
+#4. Write To File
+
+#=======================================================================================================================
+
+#Things to do
+
+#1. Add a master password to the passwords.txt file
+#2. Length of password
+#3. Need to Have . in the website name
+#4. Fix Multiple Lines Issue In the passwords.txt file
+
+#=======================================================================================================================
+
+
+
+
+
+
+
+
 password = uuid.uuid1()
 
-def gen_password():
-    website = input("Enter the website: ")
-    if website == "":
-        print("Please enter a website")
-        gen_password()
-    else:
+#def gen_password():
+#    website = input("Enter the website: ")
+#    if website == "":
+#        print("Please enter a website")
+#        gen_password()
+#    else:
+#        with open('passwords.txt', 'w') as f:
+#            #store as plain text
+#            f.write(website + ": " + str(password))
+#            #store as hashed
+#            hash_object = hashlib.sha256(str(password).encode())
+#            hex_dig = hash_object.hexdigest()
+#            f.write('\nHashed Password: ' + hex_dig)
+
+
+
+
+
+#=======================================================================================================================
+#Kivy App
+class PasswordGenerator(App):
+    def build(self):
+#=======================================================================================================================
+#=======================================================================================================================
+        #returns a window object with all it's widgets
+        self.window = GridLayout()
+        self.window.cols = 1
+        self.window.size_hint = (0.4, 0.4)
+        self.window.pos_hint = {"center_x": 0.5, "center_y":0.5}
+        self.background_normal = '#00ff00'
+
+        # label widget
+        self.greeting = Label(
+                        text= "Enter The Name of The Website",
+                        font_size= 18,
+                        color= '#ffffff'
+                        )
+        self.window.add_widget(self.greeting)
+
+        # text input widget
+        self.user = TextInput(
+                    multiline= False,
+                    padding_y= (20,20),
+                    size_hint= (1, 0.5)
+                    )
+
+        self.window.add_widget(self.user)
+
+        # button widget
+        self.button = Button(
+                      text= "Save Password",
+                      size_hint= (1,0.5),
+                      bold= True,
+                      background_color ='#7ddb96',
+                      #remove darker overlay of background colour
+                      background_normal = ""
+                      )
+        self.button.bind(on_press=self.callback)
+        self.window.add_widget(self.button)
+
+        return self.window
+
+    def password_creation():
         with open('passwords.txt', 'w') as f:
             #store as plain text
             f.write(website + ": " + str(password))
@@ -57,4 +146,25 @@ def gen_password():
             hex_dig = hash_object.hexdigest()
             f.write('\nHashed Password: ' + hex_dig)
 
-gen_password()
+    def callback(self, instance):
+        print("callback")
+        website = self.user.text
+        if website == "":
+            print("Please enter a website")
+            self.callback()
+        else:
+            with open('passwords.txt', 'w') as f:
+                #store as plain text
+                f.write(website + ": " + str(password))
+                #store as hashed
+                hash_object = hashlib.sha256(str(password).encode())
+                hex_dig = hash_object.hexdigest()
+                f.write('\nHashed Password: ' + hex_dig)
+
+#=======================================================================================================================
+
+
+if __name__ == "__main__":
+    me()
+    PasswordGenerator().run()
+    #gen_password()
