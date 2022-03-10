@@ -10,6 +10,10 @@ https://www.security.org/how-secure-is-my-password/ random uuid tested with secu
 
 https://www.pythontutorial.net/python-basics/python-check-if-file-exists/ , check if file exists
 
+https://www.codegrepper.com/code-examples/python/python+check+if+string+contains+specific+letters
+
+https://stackoverflow.com/questions/18569784/python-password-protection REALLY REALLY USEFUL
+
 future: password length (not hard), fix problem where it doesn't work if you enter a website without a ".", fix passwords.txt not being able to have multiple websites/passwords
 
 =======================================================================================================================
