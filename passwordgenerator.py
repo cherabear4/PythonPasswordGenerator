@@ -59,9 +59,9 @@ def me():
 
 #Things to do
 
-#1. Add a master password to the passwords.txt file
+#1. Add a master password to the passwords.txt file (DONE)
 #2. Length of password
-#3. Need to Have . in the website name
+#3. Need to Have . in the website name (DONE)
 #4. Fix Multiple Lines Issue In the passwords.txt file
 
 #=======================================================================================================================
@@ -74,6 +74,8 @@ def me():
 
 
 password = uuid.uuid1()
+
+dotcheck = "."
 
 #def gen_password():
 #    website = input("Enter the website: ")
@@ -125,7 +127,7 @@ class PasswordGenerator(App):
 
         # button widget
         self.button = Button(
-                      text= "Save Password",
+                      text= "Generate Password",
                       size_hint= (1,0.5),
                       bold= True,
                       background_color ='#7ddb96',
@@ -149,15 +151,16 @@ class PasswordGenerator(App):
     def callback(self, instance):
         print("callback")
         website = self.user.text
-        if website == "":
-            print("Please enter a website")
-            self.callback()
+        if "." not in website:
+            print("Please enter a website with a '.' in the name")
+            self.user.text = ""
+            self.user.focus = True
         else:
             with open('passwords.txt', 'w') as f:
                 #store as plain text
-                f.write(website + ": " + str(password))
+                f.writelines(website + ": " + str(password) + "\n")
                 #store as hashed
-                hash_object = hashlib.sha256(str(password).encode())
+                hash_object = hashlib.md5(str(password).encode())
                 hex_dig = hash_object.hexdigest()
                 f.write('\nHashed Password: ' + hex_dig)
 
